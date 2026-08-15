@@ -21,11 +21,15 @@ Identified a state-count error in the initial Moore FSM design (incorrectly mode
 
 ## Simulation
 
-Verified in **Xilinx Vivado** — testbench drives a serial bitstream and checks the detector output against expected match points.
+Verified in **Xilinx Vivado** — testbench drives a serial bitstream and checks the detector output against expected match points for both FSM styles.
 
-**Waveform:**
+**Mealy FSM Waveform:**
 
-![Waveform](./waveform.png)
+![Mealy Waveform](./mealy_waveform.png)
+
+**Moore FSM Waveform (corrected 5-state model):**
+
+![Moore Waveform](./moore_waveform.png)
 
 ## How to Run
 
