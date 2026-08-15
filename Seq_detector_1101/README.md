@@ -1,46 +1,39 @@
-# Sequence Detector (1101) – Mealy & Moore FSM
+# Sequence Detector — Overlapping 1101 Pattern
 
-A SystemVerilog RTL implementation of a sequence detector that identifies the bit pattern **"1101"** in a serial input stream, designed using both **Mealy** and **Moore** finite state machine architectures for comparison.
+An overlapping sequence detector that identifies the pattern `1101` in a serial input bitstream, implemented and compared using both Mealy and Moore FSM architectures.
 
-## 📌 Overview
-This project was developed as part of a VLSI/RTL design internship. It covers the complete design flow — from RTL coding to functional verification — for a classic digital design problem frequently asked in VLSI interviews.
+## Design
 
-## 🛠️ Tools & Technologies
-- **HDL:** SystemVerilog
-- **Simulation & Synthesis:** Xilinx Vivado
-- **Verification:** Self-checking testbench
+- **Pattern**: 1101 (overlapping detection — last bits of one match can be reused for the next)
+- **Mealy FSM**: Output depends on current state + input (faster response, one cycle less latency)
+- **Moore FSM**: Output depends only on current state (glitch-free, more predictable timing)
 
-## 📂 Repository Structure
-sequence-detector-1101/
-├── mealy_fsm.sv          # Mealy FSM implementation
-├── moore_fsm.sv          # Moore FSM implementation
-├── tb_sequence_detector.sv  # Testbench
-├── waveform.png          # Simulation result screenshot
-└── report.docx           # Detailed project report
+## Bug Fix
 
-## ⚙️ Design Details
-- **Input:** Serial bit stream (1 bit per clock cycle)
-- **Output:** Detection flag, asserted when "1101" pattern is found
-- **Overlap handling:** Supports overlapping sequence detection
-- **States:** 5-state FSM (S0–S4) tracking partial matches of the sequence
+Identified a state-count error in the initial Moore FSM design (incorrectly modeled with 6 states) and corrected it to a functionally accurate **5-state model**, verified against expected detection timing via waveform analysis.
 
-### Mealy vs Moore
-| Aspect | Mealy FSM | Moore FSM |
-|---|---|---|
-| Output depends on | Present state + input | Present state only |
-| Output timing | Faster (combinational) | One cycle delayed |
-| Hardware | Fewer states, more logic | More states, simpler logic |
+## Files
 
-## ✅ Verification
-The design was verified using a self-checking testbench in Vivado, covering:
-- Random and directed input sequences
-- Edge cases (overlapping patterns, back-to-back detections)
-- Waveform-level validation of output timing for both FSM types
+| File | Description |
+|---|---|
+| `*.v` | Mealy and Moore FSM RTL implementations |
+| `*_tb.v` | Self-checking testbench |
 
-## 📄 Report
-A detailed report (`report.docx`) is included, covering the design approach, state diagrams, RTL code walkthrough, and simulation results.
+## Simulation
 
-## 🎯 Key Learnings
-- Practical difference between Mealy and Moore architectures in real hardware
-- Testbench design for sequence detection problems
-- Timing analysis of FSM outputs in simulation
+Verified in **Xilinx Vivado** — testbench drives a serial bitstream and checks the detector output against expected match points.
+
+**Waveform:**
+
+![Waveform](./waveform.png)
+
+## How to Run
+
+1. Open the project in Xilinx Vivado
+2. Add the FSM RTL and testbench files
+3. Set the testbench as the top module
+4. Run behavioral simulation and inspect the waveform
+
+## Key Learning
+
+Debugging the Moore FSM state-count error reinforced the difference between Mealy and Moore output timing and the importance of verifying state transitions against a golden reference.
