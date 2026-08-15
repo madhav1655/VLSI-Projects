@@ -21,7 +21,7 @@ Verified in **Xilinx Vivado** — testbench simulates coin insertion sequences, 
 
 **Waveform:**
 
-![Waveform](./waveform.png)
+![Waveform](./Waveform.png)
 
 ## How to Run
 
